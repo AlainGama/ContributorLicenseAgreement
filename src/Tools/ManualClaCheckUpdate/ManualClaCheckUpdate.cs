@@ -1,11 +1,12 @@
 ﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the Microsoft License. See License.txt in the project root for license information.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 namespace ManualClaCheckUpdate
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using CommandLine;
     using ContributorLicenseAgreement.Core;
@@ -16,6 +17,7 @@ namespace ManualClaCheckUpdate
     using Microsoft.Extensions.DependencyInjection;
     using Octokit;
 
+    [ExcludeFromCodeCoverage]
     public static class ManualClaCheckUpdate
     {
         private const string Dns = "github.com";

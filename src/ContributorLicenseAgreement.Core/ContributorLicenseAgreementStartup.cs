@@ -1,6 +1,6 @@
 ﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the Microsoft License. See License.txt in the project root for license information.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 namespace ContributorLicenseAgreement.Core
@@ -50,6 +50,7 @@ namespace ContributorLicenseAgreement.Core
             serviceCollection.AddSingleton<CommentHelper>();
             serviceCollection.AddSingleton<CheckHelper>();
             serviceCollection.AddSingleton<LoggingHelper>();
+            serviceCollection.AddSingleton<MergeGroupHandler>();
             serviceCollection.Configure<PlatformAppFlavorSettings>(
                 configuration.GetSection(nameof(PlatformAppFlavorSettings)));
         }

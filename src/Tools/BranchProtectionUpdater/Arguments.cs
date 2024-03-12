@@ -1,13 +1,15 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the Microsoft License. See License.txt in the project root for license information.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 namespace BranchProtectionUpdater
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using CommandLine;
 
+    [ExcludeFromCodeCoverage]
     internal sealed class Arguments
     {
         [Option('o', "orgName", Required = true, HelpText = "Org name owning the repo.")]

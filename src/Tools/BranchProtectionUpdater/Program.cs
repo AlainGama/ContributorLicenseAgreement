@@ -1,12 +1,13 @@
 ﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the Microsoft License. See License.txt in the project root for license information.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 namespace BranchProtectionUpdater
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using CommandLine;
     using GitOps.Clients.Azure.Telemetry;
@@ -18,6 +19,7 @@ namespace BranchProtectionUpdater
     using Microsoft.Extensions.Logging;
     using Microsoft.VisualBasic.CompilerServices;
 
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         private const string Dns = "github.com";

@@ -1,6 +1,6 @@
 ﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the Microsoft License. See License.txt in the project root for license information.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
 namespace ContributorLicenseAgreement.Core.Tests
@@ -9,6 +9,7 @@ namespace ContributorLicenseAgreement.Core.Tests
     using System.Collections.Generic;
     using System.IO;
     using System.Net.Http;
+    using System.Runtime.InteropServices.JavaScript;
     using ContributorLicenseAgreement.Core.Handlers;
     using ContributorLicenseAgreement.Core.Handlers.Helpers;
     using ContributorLicenseAgreement.Core.Handlers.Model;
@@ -27,6 +28,8 @@ namespace ContributorLicenseAgreement.Core.Tests
     using Moq;
     using Octokit;
     using RichardSzalay.MockHttp;
+    using PullRequest = Octokit.PullRequest;
+    using User = Octokit.User;
 
     public sealed class ClassFixture : IDisposable
     {
@@ -114,6 +117,11 @@ namespace ContributorLicenseAgreement.Core.Tests
                 f.UpdateCheckRunAsync(It.IsAny<long>(), It.IsAny<long>(), It.IsAny<CheckRunUpdate>()));
             mockClient.Setup(f =>
                 f.CreateCheckRunAsync(It.IsAny<long>(), It.IsAny<NewCheckRun>())).ReturnsAsync(checkRun);
+            mockClient.Setup(f => f.GetPullRequestFilesAsync(It.IsAny<long>(), It.IsAny<int>()))
+                .ReturnsAsync(new List<PullRequestFile>
+                {
+                    new PullRequestFile(string.Empty, "testFile", string.Empty, 5, 0, 5, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
+                });
             mockClient.Setup(f => f.GetPullRequestAsync(It.IsAny<long>(), It.IsAny<int>()))
                 .ReturnsAsync(new PullRequest(
                     1,
@@ -132,7 +140,80 @@ namespace ContributorLicenseAgreement.Core.Tests
                     DateTimeOffset.Now,
                     null,
                     null,
-                    null,
+                    new GitReference(
+                        null, null, null, null, null, null, new Repository(
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            0,
+                            null,
+                            new User(
+                                string.Empty,
+                                string.Empty,
+                                string.Empty,
+                                1,
+                                string.Empty,
+                                DateTimeOffset.Now,
+                                DateTimeOffset.Now,
+                                1,
+                                string.Empty,
+                                1,
+                                1,
+                                false,
+                                string.Empty,
+                                1,
+                                1,
+                                string.Empty,
+                                "org",
+                                string.Empty,
+                                string.Empty,
+                                1,
+                                null,
+                                1,
+                                1,
+                                1,
+                                string.Empty,
+                                null,
+                                false,
+                                string.Empty,
+                                null),
+                            null,
+                            null,
+                            false,
+                            null,
+                            null,
+                            null,
+                            false,
+                            false,
+                            1,
+                            0,
+                            null,
+                            1,
+                            null,
+                            DateTimeOffset.Now,
+                            DateTimeOffset.Now,
+                            null,
+                            new Repository(2342342),
+                            new Repository(2342342),
+                            null,
+                            true,
+                            true,
+                            true,
+                            true,
+                            13,
+                            123456789,
+                            null,
+                            null,
+                            null,
+                            false,
+                            4,
+                            null,
+                            RepositoryVisibility.Public,
+                            new List<string>())),
                     null,
                     new User(
                         string.Empty,
@@ -185,6 +266,8 @@ namespace ContributorLicenseAgreement.Core.Tests
 
             var mockFactory = new Mock<IGitHubClientAdapterFactory>();
             mockFactory.Setup(f => f.GetGitHubClientAdapterAsync(It.IsAny<long>(), It.IsAny<string>()))
+                .ReturnsAsync(mockClient.Object);
+            mockFactory.Setup(f => f.GetGitHubClientAdapterAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(mockClient.Object);
 
             var platformAppFlavorSettings = new PlatformAppFlavorSettings
